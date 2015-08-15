@@ -8,6 +8,8 @@ const int PIN_LED_RED = 6;
 const int PIN_LED_GREEN = 5;
 const int PIN_LED_BLUE = 9;
 
+const int PIN_VM = 2;
+
 
 void setup() {
   Serial.begin(9600);
@@ -20,6 +22,9 @@ void setup() {
   pinMode(PIN_LED_RED, OUTPUT);
   pinMode(PIN_LED_GREEN, OUTPUT);
   pinMode(PIN_LED_BLUE, OUTPUT);
+  
+  //Activate voltage measurement
+  pinMode(PIN_VM, INPUT);
 }
 
 // ISR to detect motion. Called by both PIR via external interrupt
@@ -68,7 +73,15 @@ bool isDark() {
 }
 
 void turnOnLight() {
-  makeLight(0xffffff, 0.01);
+  unsigned long color = 0xffffff;
+  const float voltage = measureVCC();
+
+  if(voltage > 10.0)   //Good condition
+    color = 0x00ff00;
+  else if(voltage < 8.0)  //Should be recharged
+    color = 0xff0000;  
+    
+  makeLight(color, 0.01);
 }
 
 void turnOffLight() {
@@ -90,4 +103,11 @@ void makeLight(const unsigned char red, const unsigned char green, const unsigne
   analogWrite(PIN_LED_RED, red);
   analogWrite(PIN_LED_GREEN, green);
   analogWrite(PIN_LED_BLUE, blue); 
+}
+
+float measureVCC() {  
+  const int voltageRaw = analogRead(PIN_VM);
+  //A voltage divider is connected to PIN_VM
+  //Vin = 12V, Vout = 4.68V, R1=1M, R2=680K
+  return map(voltageRaw, 0, 1023, 0, 1200)/100.0; 
 }
