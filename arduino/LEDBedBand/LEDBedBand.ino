@@ -69,16 +69,16 @@ bool isMotionDetected() {
 
 /* Check if it is dark. Higher values -> darker. Range 0-1023 */
 bool isDark() {
-  return analogRead(A0) > 900;
+  return analogRead(A0) > 980;
 }
 
 void turnOnLight() {
   unsigned long color = 0xffffff;
   const float voltage = measureVCC();
 
-  if(voltage > 10.0)   //Good condition
+  if(voltage > (8*1.30))   //Good condition
     color = 0x00ff00;
-  else if(voltage < 8.0)  //Should be recharged
+  else if(voltage < (8*1.10))  //Should be recharged
     color = 0xff0000;  
     
   makeLight(color, 0.01);

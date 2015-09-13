@@ -10,3 +10,7 @@ LED strip under the bed that gets activated by two motion detectors.
 - 1x 5m RGB 5050 LED 12V, 30LED/m (10lm), 6/m, 0.5A/m
 - 1x 12V Step-Up Voltage Regulator [link](https://www.pololu.com/product/2568)
 - 1x NiMH 9.6V 8 cell battery
+- 1x Resistor 10k
+- 1x Resistor 680k
+- 1x Resistor 1M
+
