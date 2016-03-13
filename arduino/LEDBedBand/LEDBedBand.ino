@@ -25,6 +25,17 @@ void setup() {
   
   //Activate voltage measurement
   pinMode(PIN_VM, INPUT);
+  
+  //Check colors
+  makeLight(1,0,0);
+  delay(500);
+  makeLight(0,1,0);
+  delay(500);
+  makeLight(0,0,1);
+  delay(500);
+  makeLight(1,1,1);
+  delay(500);
+  makeLight(0,0,0);  
 }
 
 // ISR to detect motion. Called by both PIR via external interrupt
